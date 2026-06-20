@@ -1,0 +1,18 @@
+{
+  "name": "threetest",
+  "version": "1.0.0",
+  "description": "> 🎓 **前端实验作业** | 学号：24111302044 | 姓名：尹文静 > > 📦 **GitHub**: [https://github.com/gugujihahaha/Design-Skills](https://github.com/gugujihahaha/Design-Skills)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "docx": "^9.7.1"
+  }
+}

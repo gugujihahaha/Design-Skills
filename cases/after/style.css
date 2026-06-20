@@ -1,0 +1,348 @@
+/* 注册表单样式 */
+
+:root {
+  --primary: #1677ff;
+  --primary-hover: #4096ff;
+  --error: #d9363e;
+  --error-bg: #fff2f0;
+  --error-border: #ffccc7;
+  --success: #389e0d;
+  --success-bg: #f6ffed;
+  --success-border: #b7eb8f;
+  --text: #262626;
+  --text-secondary: #595959;
+  --text-placeholder: #8c8c8c;
+  --border: #d9d9d9;
+  --bg: #f5f5f5;
+  --white: #ffffff;
+  --focus-ring: #1677ff;
+  --radius: 6px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei",
+    "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+  line-height: 1.6;
+}
+
+/* 跳过导航 */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--primary);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  z-index: 1000;
+  font-size: 14px;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* 容器 */
+.form-container {
+  width: 100%;
+  max-width: 480px;
+  background: var(--white);
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+#form-heading {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.form-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* 屏幕阅读器专用 */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 错误汇总 */
+.error-summary {
+  background: var(--error-bg);
+  border: 2px solid var(--error-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.error-summary[hidden] { display: none; }
+
+.error-summary-title {
+  font-size: 15px;
+  color: var(--error);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.error-summary ul { list-style: none; padding-left: 36px; }
+.error-summary li { font-size: 14px; line-height: 1.8; }
+.error-summary a { color: #1677ff; }
+
+/* 表单组 */
+.form-group { margin-bottom: 20px; }
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.required-star { color: var(--error); margin-left: 2px; }
+.optional-tag { font-weight: normal; font-size: 12px; color: var(--text-secondary); }
+
+/* 输入框 */
+.form-input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input::placeholder {
+  color: var(--text-placeholder);
+  font-size: 13px;
+}
+
+.form-input:hover { border-color: var(--primary-hover); }
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+}
+
+.form-input:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* 输入框错误状态 */
+.form-input.input-error {
+  border-color: var(--error);
+  border-width: 2px;
+  padding: 0 11px;
+  background: #fffbfb;
+}
+.form-input.input-error:focus-visible { outline-color: var(--error); }
+
+/* 禁用 */
+.form-input:disabled {
+  background: #f5f5f5;
+  color: #bfbfbf;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 提示文字 */
+.form-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* 内联错误 */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--error);
+}
+.error-message[hidden] { display: none; }
+.error-icon { flex-shrink: 0; width: 16px; height: 16px; }
+
+/* 密码框 */
+.password-wrapper { position: relative; }
+.password-wrapper .form-input { padding-right: 44px; }
+
+.password-toggle {
+  position: absolute;
+  right: 4px; top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none;
+  color: #8c8c8c;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+.password-toggle:hover { color: #595959; background: #f0f0f0; }
+.password-toggle:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* 密码强度 */
+.strength-meter { margin-top: 8px; }
+.strength-bar {
+  width: 100%; height: 6px;
+  background: #e8e8e8;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.strength-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s, background 0.3s;
+}
+.strength-text {
+  display: block; font-size: 12px;
+  margin-top: 4px; color: var(--text-secondary);
+}
+
+/* fieldset / radio */
+.fieldset-group { border: none; padding: 0; }
+
+.radio-group { display: flex; gap: 24px; flex-wrap: wrap; }
+
+.radio-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; color: var(--text);
+  cursor: pointer; min-height: 44px; padding: 4px 0;
+}
+.radio-item input[type="radio"] { width: 18px; height: 18px; accent-color: var(--primary); }
+.radio-item input[type="radio"]:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* checkbox */
+.checkbox-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--text);
+  cursor: pointer; min-height: 44px;
+}
+.checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+.checkbox-item input[type="checkbox"]:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.checkbox-item a { color: var(--primary); }
+
+/* honeypot 防机器人 */
+.honeypot {
+  position: absolute; left: -9999px;
+  opacity: 0; height: 0; width: 0; overflow: hidden;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 48px;
+  padding: 0 24px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px; font-weight: 600;
+  border: none; border-radius: var(--radius);
+  cursor: pointer; margin-top: 24px;
+  letter-spacing: 8px;
+  transition: background 0.2s;
+}
+.submit-btn:hover { background: #0958d9; }
+.submit-btn:active { background: #003eb3; }
+.submit-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.submit-btn:disabled {
+  background: #91caff;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+.submit-btn[aria-busy="true"] { letter-spacing: 2px; }
+
+.btn-spinner { display: flex; align-items: center; gap: 8px; }
+.btn-spinner[hidden] { display: none; }
+
+/* spinner 动画 */
+.spinner { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 成功消息 */
+.success-msg {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: var(--radius);
+  padding: 16px; margin-top: 24px;
+  color: var(--success);
+  font-size: 15px; font-weight: 500; text-align: center;
+}
+.success-msg[hidden] { display: none; }
+
+/* 响应式 */
+@media (max-width: 480px) {
+  body { padding: 8px; }
+  .form-container { padding: 20px; border-radius: 0; box-shadow: none; max-width: 100%; }
+  #form-heading { font-size: 22px; }
+  .radio-group { flex-direction: column; gap: 8px; }
+  .submit-btn { letter-spacing: 4px; }
+}
+
+@media (max-width: 360px) {
+  .form-container { padding: 12px; }
+  .form-input { font-size: 16px; }
+  .submit-btn { min-height: 44px; font-size: 15px; }
+}
+
+/* 减弱动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .spinner { animation: none; }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .form-input { border-width: 2px; border-color: #000; }
+  .form-input.input-error { border-color: #c00; border-width: 3px; }
+  .submit-btn { border: 2px solid #000; }
+}

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户注册</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#reg-form" class="skip-link">跳转到主内容</a>
+
+  <main class="form-container">
+    <h1 id="form-heading">创建您的账户</h1>
+    <p class="form-subtitle">请填写以下信息完成注册</p>
+
+    <div
+      id="error-summary"
+      class="error-summary"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+      tabindex="-1"
+      hidden
+    >
+      <h2 class="error-summary-title">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="9" stroke="#ff4d4f" stroke-width="2"/>
+          <path d="M10 6v5M10 13.5v.5" stroke="#ff4d4f" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        表单包含 <span id="error-count">0</span> 个错误，请修正后重新提交
+      </h2>
+      <ul id="error-list"></ul>
+    </div>
+
+    <form id="reg-form" action="/register" method="post" novalidate>
+
+      <div class="form-group">
+        <label for="username" class="form-label">
+          用户名
+          <span class="required-star" aria-hidden="true">*</span>
+          <span class="sr-only">（必填）</span>
+        </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-input"
+          placeholder="例：张三"
+          required
+          aria-required="true"
+          autocomplete="username"
+          aria-describedby="username-hint username-error"
+        >
+        <span id="username-hint" class="form-hint">请输入 2-20 个字符的用户名</span>
+        <span id="username-error" class="error-message" role="status" hidden>
+          <svg aria-hidden="true" width="16" height="16" class="error-icon">
+            <circle cx="8" cy="8" r="7" stroke="#ff4d4f" stroke-width="1.5" fill="none"/>
+            <path d="M8 4v4M8 10.5v.5" stroke="#ff4d4f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span></span>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">
+          电子邮箱
+          <span class="required-star" aria-hidden="true">*</span>
+          <span class="sr-only">（必填）</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-input"
+          placeholder="例：zhangsan@example.com"
+          required
+          aria-required="true"
+          autocomplete="email"
+          aria-describedby="email-hint email-error"
+        >
+        <span id="email-hint" class="form-hint">请输入有效的电子邮箱地址</span>
+        <span id="email-error" class="error-message" role="status" hidden>
+          <svg aria-hidden="true" width="16" height="16" class="error-icon">
+            <circle cx="8" cy="8" r="7" stroke="#ff4d4f" stroke-width="1.5" fill="none"/>
+            <path d="M8 4v4M8 10.5v.5" stroke="#ff4d4f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span></span>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">
+          密码
+          <span class="required-star" aria-hidden="true">*</span>
+          <span class="sr-only">（必填）</span>
+        </label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="至少 8 位，包含字母和数字"
+            required
+            aria-required="true"
+            autocomplete="new-password"
+            minlength="8"
+            aria-describedby="password-hint password-strength password-error"
+          >
+          <button
+            type="button"
+            id="password-toggle"
+            class="password-toggle"
+            aria-label="显示密码"
+            onclick="togglePassword()"
+          >
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <span id="password-hint" class="form-hint">至少 8 位，需包含字母和数字</span>
+        <div id="password-strength" class="strength-meter" aria-live="polite">
+          <div class="strength-bar">
+            <div id="strength-fill" class="strength-fill" style="width:0%;"></div>
+          </div>
+          <span id="strength-text" class="strength-text"></span>
+        </div>
+        <span id="password-error" class="error-message" role="status" hidden>
+          <svg aria-hidden="true" width="16" height="16" class="error-icon">
+            <circle cx="8" cy="8" r="7" stroke="#ff4d4f" stroke-width="1.5" fill="none"/>
+            <path d="M8 4v4M8 10.5v.5" stroke="#ff4d4f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span></span>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password" class="form-label">
+          确认密码
+          <span class="required-star" aria-hidden="true">*</span>
+          <span class="sr-only">（必填）</span>
+        </label>
+        <input
+          type="password"
+          id="confirm-password"
+          name="confirm_password"
+          class="form-input"
+          placeholder="请再次输入密码"
+          required
+          aria-required="true"
+          autocomplete="new-password"
+          aria-describedby="confirm-error"
+        >
+        <span id="confirm-error" class="error-message" role="status" hidden>
+          <svg aria-hidden="true" width="16" height="16" class="error-icon">
+            <circle cx="8" cy="8" r="7" stroke="#ff4d4f" stroke-width="1.5" fill="none"/>
+            <path d="M8 4v4M8 10.5v.5" stroke="#ff4d4f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span></span>
+        </span>
+      </div>
+
+      <fieldset class="form-group fieldset-group">
+        <legend class="form-label">
+          性别
+          <span class="required-star" aria-hidden="true">*</span>
+          <span class="sr-only">（必填）</span>
+        </legend>
+        <div class="radio-group">
+          <label class="radio-item" for="gender-male">
+            <input type="radio" id="gender-male" name="gender" value="male" required>
+            男
+          </label>
+          <label class="radio-item" for="gender-female">
+            <input type="radio" id="gender-female" name="gender" value="female" required>
+            女
+          </label>
+          <label class="radio-item" for="gender-other">
+            <input type="radio" id="gender-other" name="gender" value="other">
+            其他
+          </label>
+        </div>
+        <span id="gender-error" class="error-message" role="status" hidden>
+          <svg aria-hidden="true" width="16" height="16" class="error-icon">
+            <circle cx="8" cy="8" r="7" stroke="#ff4d4f" stroke-width="1.5" fill="none"/>
+            <path d="M8 4v4M8 10.5v.5" stroke="#ff4d4f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>请选择性别</span>
+        </span>
+      </fieldset>
+
+      <div class="form-group">
+        <label for="phone" class="form-label">
+          手机号
+          <span class="optional-tag">（选填）</span>
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          class="form-input"
+          placeholder="例：13812345678"
+          autocomplete="tel"
+        >
+        <span class="form-hint">用于接收订单通知，不填写也可注册</span>
+      </div>
+
+      <div class="honeypot" aria-hidden="true">
+        <label for="honeypot">Leave this empty</label>
+        <input type="text" id="honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-item" for="terms">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            required
+            aria-required="true"
+            aria-describedby="terms-error"
+          >
+          我已阅读并同意 <a href="#" target="_blank" rel="noopener">服务条款</a>
+          <span class="required-star" aria-hidden="true">*</span>
+        </label>
+        <span id="terms-error" class="error-message" role="status" hidden>
+          <svg aria-hidden="true" width="16" height="16" class="error-icon">
+            <circle cx="8" cy="8" r="7" stroke="#ff4d4f" stroke-width="1.5" fill="none"/>
+            <path d="M8 4v4M8 10.5v.5" stroke="#ff4d4f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>请阅读并同意服务条款</span>
+        </span>
+      </div>
+
+      <button type="submit" id="submit-btn" class="submit-btn" aria-busy="false">
+        <span class="btn-text">注 册</span>
+        <span class="btn-spinner" aria-hidden="true" hidden>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="spinner">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          提交中...
+        </span>
+      </button>
+
+      <div
+        id="success-msg"
+        class="success-msg"
+        role="status"
+        aria-live="polite"
+        tabindex="-1"
+        hidden
+      >
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" stroke="#52c41a" stroke-width="2"/>
+          <path d="M7 12l3 3 7-7" stroke="#52c41a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>注册成功！欢迎加入我们。</span>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    var form = document.getElementById('reg-form');
+    var errorSummary = document.getElementById('error-summary');
+    var errorList = document.getElementById('error-list');
+    var submitBtn = document.getElementById('submit-btn');
+    var successMsg = document.getElementById('success-msg');
+    var passwordInput = document.getElementById('password');
+
+    function togglePassword() {
+      var isPass = passwordInput.type === 'password';
+      passwordInput.type = isPass ? 'text' : 'password';
+      document.getElementById('password-toggle').setAttribute('aria-label', isPass ? '隐藏密码' : '显示密码');
+    }
+
+    passwordInput.addEventListener('input', function() {
+      var val = this.value;
+      var fill = document.getElementById('strength-fill');
+      var text = document.getElementById('strength-text');
+      var score = 0;
+      if (val.length >= 8) score++;
+      if (/[a-zA-Z]/.test(val) && /[0-9]/.test(val)) score++;
+      if (/[^a-zA-Z0-9]/.test(val)) score++;
+      if (val.length >= 12) score++;
+
+      var levels = [
+        { w: '0%', t: '', c: '#d9d9d9' },
+        { w: '25%', t: '弱', c: '#ff4d4f' },
+        { w: '50%', t: '中等', c: '#faad14' },
+        { w: '75%', t: '强', c: '#52c41a' },
+        { w: '100%', t: '很强', c: '#1677ff' }
+      ];
+      var lv = Math.min(score, 4);
+      fill.style.width = levels[lv].w;
+      fill.style.background = levels[lv].c;
+      text.textContent = levels[lv].t;
+    });
+
+    function showFieldError(field, msg) {
+      field.classList.add('input-error');
+      field.setAttribute('aria-invalid', 'true');
+      var describedBy = field.getAttribute('aria-describedby');
+      if (describedBy) {
+        var ids = describedBy.split(' ');
+        for (var i = 0; i < ids.length; i++) {
+          if (ids[i].endsWith('-error')) {
+            var el = document.getElementById(ids[i]);
+            if (el) {
+              el.querySelector('span:last-child').textContent = msg;
+              el.hidden = false;
+            }
+          }
+        }
+      }
+    }
+
+    function clearFieldError(field) {
+      field.classList.remove('input-error');
+      field.removeAttribute('aria-invalid');
+      var describedBy = field.getAttribute('aria-describedby');
+      if (describedBy) {
+        var ids = describedBy.split(' ');
+        for (var i = 0; i < ids.length; i++) {
+          if (ids[i].endsWith('-error')) {
+            var el = document.getElementById(ids[i]);
+            if (el) el.hidden = true;
+          }
+        }
+      }
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var errFields = form.querySelectorAll('.input-error');
+      for (var i = 0; i < errFields.length; i++) {
+        errFields[i].classList.remove('input-error');
+        errFields[i].removeAttribute('aria-invalid');
+      }
+      var errMsgs = form.querySelectorAll('.error-message');
+      for (var j = 0; j < errMsgs.length; j++) {
+        errMsgs[j].hidden = true;
+      }
+
+      var errors = [];
+      var username = document.getElementById('username');
+      var email = document.getElementById('email');
+      var pwd = document.getElementById('password');
+      var confirm = document.getElementById('confirm-password');
+      var terms = document.getElementById('terms');
+
+      if (!username.value.trim()) {
+        errors.push({ field: username, msg: '请输入用户名' });
+      } else if (username.value.trim().length < 2 || username.value.trim().length > 20) {
+        errors.push({ field: username, msg: '用户名需 2-20 个字符' });
+      }
+
+      if (!email.value.trim()) {
+        errors.push({ field: email, msg: '请输入邮箱地址' });
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+        errors.push({ field: email, msg: '邮箱格式不正确' });
+      }
+
+      if (!pwd.value) {
+        errors.push({ field: pwd, msg: '请输入密码' });
+      } else if (pwd.value.length < 8) {
+        errors.push({ field: pwd, msg: '密码至少需要 8 位' });
+      } else if (!(/[a-zA-Z]/.test(pwd.value) && /[0-9]/.test(pwd.value))) {
+        errors.push({ field: pwd, msg: '密码需要包含字母和数字' });
+      }
+
+      if (pwd.value !== confirm.value) {
+        errors.push({ field: confirm, msg: '两次密码不一致' });
+      }
+
+      var genderChecked = form.querySelector('input[name="gender"]:checked');
+      if (!genderChecked) {
+        errors.push({ field: document.getElementById('gender-male'), msg: '请选择性别' });
+      }
+
+      if (!terms.checked) {
+        errors.push({ field: terms, msg: '请先同意服务条款' });
+      }
+
+      if (document.getElementById('honeypot').value) {
+        errors.push({ field: null, msg: '系统检测到异常，请稍后再试' });
+      }
+
+      if (errors.length > 0) {
+        errorList.innerHTML = '';
+        document.getElementById('error-count').textContent = errors.length;
+        for (var k = 0; k < errors.length; k++) {
+          var li = document.createElement('li');
+          var a = document.createElement('a');
+          a.href = '#' + (errors[k].field ? errors[k].field.id : '');
+          a.textContent = errors[k].msg;
+          a.addEventListener('click', function(ev, f) {
+            return function(e2) {
+              e2.preventDefault();
+              if (f) f.focus();
+            };
+          }(errors[k].field));
+          li.appendChild(a);
+          errorList.appendChild(li);
+          if (errors[k].field) {
+            showFieldError(errors[k].field, errors[k].msg);
+          }
+        }
+        errorSummary.hidden = false;
+        errorSummary.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
+      submitBtn.querySelector('.btn-text').hidden = true;
+      submitBtn.querySelector('.btn-spinner').hidden = false;
+
+      setTimeout(function() {
+        submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-busy', 'false');
+        submitBtn.querySelector('.btn-text').hidden = false;
+        submitBtn.querySelector('.btn-spinner').hidden = true;
+        successMsg.hidden = false;
+        successMsg.focus();
+        form.reset();
+        document.getElementById('strength-fill').style.width = '0%';
+        document.getElementById('strength-text').textContent = '';
+      }, 2000);
+    });
+
+    form.addEventListener('blur', function(e) {
+      if (e.target.classList.contains('form-input') && e.target.required && e.target.value.trim()) {
+        // 失焦时不清除用户正在修改的内容，仅在提交时做完整校验
+      }
+    }, true);
+
+    form.addEventListener('input', function(e) {
+      if (e.target.classList.contains('input-error')) {
+        clearFieldError(e.target);
+      }
+    }, true);
+  </script>
+</body>
+</html>

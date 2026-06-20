@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户注册</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="form-container">
+    <div class="form-title">注册新账户</div>
+
+    <div id="error-summary" class="error-summary" style="display:none;">
+      <p>表单包含错误，请修正后重新提交</p>
+      <ul id="error-list"></ul>
+    </div>
+
+    <form id="reg-form" method="post">
+
+      <div class="form-group">
+        <input
+          type="text"
+          id="name"
+          name="username"
+          placeholder="请输入用户名"
+          tabindex="1"
+          autocomplete="off"
+        >
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="请输入电子邮箱"
+          tabindex="3"
+        >
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="请输入密码（至少8位，含字母和数字）"
+          tabindex="2"
+        >
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="confirm-password"
+          name="confirm_password"
+          placeholder="请再次输入密码"
+          tabindex="4"
+        >
+      </div>
+
+      <div class="form-group">
+        <div class="radio-label">性别</div>
+        <div class="radio-group">
+          <label>
+            <input type="radio" id="gender-male" name="gender" value="male" tabindex="5">
+            男
+          </label>
+          <label>
+            <input type="radio" id="gender-female" name="gender" value="female" tabindex="6">
+            女
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="captcha-label">验证码</div>
+        <div class="captcha-row">
+          <input
+            type="text"
+            id="captcha"
+            name="captcha"
+            placeholder="请输入右侧验证码"
+            tabindex="7"
+          >
+          <div class="captcha-img">
+            <span style="font-family: monospace; font-size: 18px; background: #eee; padding: 8px 12px; letter-spacing: 4px;">
+              A7Kp
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="terms" name="terms" tabindex="8">
+          我已阅读并同意 <a href="#">服务条款</a>
+        </label>
+      </div>
+
+      <div class="submit-btn" id="submit-btn" tabindex="9" onclick="handleSubmit()">
+        注 册
+      </div>
+
+      <div id="success-msg" class="success-msg" style="display:none;"></div>
+    </form>
+  </div>
+
+  <script>
+    function handleSubmit() {
+      var errors = [];
+      var nameVal = document.getElementById('name').value.trim();
+      var emailVal = document.getElementById('email').value.trim();
+      var passwordVal = document.getElementById('password').value;
+      var confirmVal = document.getElementById('confirm-password').value;
+      var captchaVal = document.getElementById('captcha').value.trim();
+      var termsChecked = document.getElementById('terms').checked;
+
+      if (!nameVal) {
+        errors.push('用户名不能为空');
+        document.getElementById('name').classList.add('input-error');
+      }
+
+      if (!emailVal) {
+        errors.push('邮箱不能为空');
+        document.getElementById('email').classList.add('input-error');
+      } else if (emailVal.indexOf('@') === -1) {
+        errors.push('邮箱格式不正确');
+        document.getElementById('email').classList.add('input-error');
+      }
+
+      if (!passwordVal) {
+        errors.push('密码不能为空');
+        document.getElementById('password').classList.add('input-error');
+      } else if (passwordVal.length < 8) {
+        errors.push('密码至少需要8位');
+        document.getElementById('password').classList.add('input-error');
+      }
+
+      if (passwordVal !== confirmVal) {
+        errors.push('两次密码输入不一致');
+        document.getElementById('confirm-password').classList.add('input-error');
+      }
+
+      if (!captchaVal) {
+        errors.push('请输入验证码');
+        document.getElementById('captcha').classList.add('input-error');
+      }
+
+      if (!termsChecked) {
+        errors.push('请阅读并同意服务条款');
+        document.getElementById('terms').parentElement.classList.add('input-error');
+      }
+
+      if (errors.length > 0) {
+        var errorSummary = document.getElementById('error-summary');
+        var errorList = document.getElementById('error-list');
+        errorList.innerHTML = '';
+        errors.forEach(function(e) {
+          var li = document.createElement('li');
+          li.textContent = e;
+          errorList.appendChild(li);
+        });
+        errorSummary.style.display = 'block';
+        return false;
+      }
+
+      alert('提交成功！(模拟)');
+      document.getElementById('success-msg').style.display = 'block';
+      document.getElementById('success-msg').textContent = '注册成功！';
+      return true;
+    }
+  </script>
+</body>
+</html>
